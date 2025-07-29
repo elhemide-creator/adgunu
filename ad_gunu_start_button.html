@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ad Gününə Geri Sayım</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #fff7d1, #ffd1dc);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #cover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #d6d1be;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: transform 1s ease-in-out;
+      z-index: 10;
+    }
+    #cover.hidden {
+      transform: translateY(-100%);
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      background: #873e23;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    #countdown {
+      font-size: 2em;
+      color: #b03060;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="cover">
+    <h1>🎁 Sürprizə Hazırsan?</h1>
+    <button onclick="startCountdown()">Göstər</button>
+  </div>
+  <div id="countdown" style="display:none;">
+    Ad Gününə Qalan Vaxt: <span id="time">-- gün -- saat -- dəqiqə -- saniyə</span>
+  </div>
+
+  <script>
+    function startCountdown() {
+      document.getElementById('cover').classList.add('hidden');
+      document.getElementById('countdown').style.display = 'block';
+
+      const targetDate = new Date("2025-07-30T00:00:00").getTime();
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+          document.getElementById("time").innerHTML = "Təbriklər! 🥳";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("time").innerHTML = `${days} gün ${hours} saat ${minutes} dəqiqə ${seconds} saniyə`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+  </script>
+</body>
+</html>
